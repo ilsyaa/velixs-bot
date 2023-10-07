@@ -18,9 +18,11 @@ module.exports = {
             result.data.url.forEach(async (url) => {
                 let buffer = await axios.get(url, { responseType: 'arraybuffer' })
                 if (buffer.headers['content-disposition'].includes('jpeg')) {
-                    await sock.sendMessage(m.from, { image : buffer.data }, { quoted: m })
+                    await sock.sendMessage(m.from, { 
+                        image : buffer.data
+                    }, { quoted: m })
                 } else if(buffer.headers['content-disposition'].includes('mp4')) {
-                    await sock.sendMessage(m.from, { video : buffer.data }, { quoted: m })
+                    await sock.sendMessage(m.from, { video : buffer.data, gifPlayback: true }, { quoted: m })
                 }
             })
         }).catch(async(err)=>{
