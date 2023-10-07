@@ -1,0 +1,16 @@
+{
+  "name": "example.velixs-md",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ptkdev/logger": "^1.8.0",
+    "axios": "^1.5.1",
+    "velixs-md": "^1.0.0"
+  }
+}
