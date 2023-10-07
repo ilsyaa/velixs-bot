@@ -9,7 +9,7 @@ module.exports = {
         text += `${m.currentPrefix}translate`
         text += `\n\n`
         text += `_👑 Author: Ilsya_\n`
-        text += `⚡ _Sources: www.github.com/ilsyaa_`
+        text += `⚡ _Sources: www.github.com/ilsyaa/velixs-bot_`
 
         return sock.sendMessage(m.from, { text: text }, { quoted: m })
     }
