@@ -17,12 +17,9 @@ module.exports = {
         })
 
         text += `\n`
-        text += `_👑 Author: Ilsya_\n`
-        text += `⚡ _Sources: www.github.com/ilsyaa/velixs-bot_`
+        text += `_👑 author: Ilsya_\n`
+        text += `⚡ sources: _www.github.com/ilsyaa/velixs-bot_`
         
-        
-
-        console.log(menuByLabel);
         return sock.sendMessage(m.from, { text: text }, { quoted: m })
     }
 }
