@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const commandsDir = path.join(__dirname, '../../commands')
 const commands = new Map();
+const menuByLabel = new Map()
 const log = require("../func/log.js")
 
 const loadFile = (filePath) => {
@@ -34,10 +35,23 @@ const exploreFolder = (dir) => {
 
 const loadCommands = async() => {
     exploreFolder(commandsDir)
+    commands.forEach(val => {
+        let label = val.menu?.label
+        if(label){
+            if(!menuByLabel.has(label)){
+                menuByLabel.set(label, [])
+            }
+            menuByLabel.get(label).push({
+                cmd : val.cmd,
+                example : val.menu.example
+            })
+        }
+    })
     log.info(`Loaded ${commands.size} commands.`)
 }
 
 module.exports = {
     loadCommands,
-    commands
+    commands,
+    menuByLabel
 }

@@ -5,7 +5,12 @@ const wa = require("velixs-md")
 module.exports = {
     name : "translate",
     description : "Google Translate",
+    menu : {
+        label : 'education',
+        example : "_en query_",
+    },
     cmd : ['translate'],
+
     run : async({ m, sock }) => {
         if(!m.args[0] && !m.arg) return sock.sendMessage(m.from, { text: `Contoh : ${m.prefix}translate en Hai Apa Kabar?` })
 
