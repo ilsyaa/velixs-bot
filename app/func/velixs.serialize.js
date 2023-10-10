@@ -2,6 +2,7 @@ const {
     extractMessageContent, 
     jidNormalizedUser, 
     proto,
+    jidDecode
 } = require("@whiskeysockets/baileys")
 const { prefixs } = require("../../config.js")
 
@@ -11,6 +12,14 @@ function getTypeMessage(message) {
 					(type.length >= 3 && type[1] !== 'messageContextInfo' && type[1]) || // Sometimes message in midle if mtype length is greater than or equal to 3
 					type[type.length - 1] || Object.keys(message)[0] // common case
 	return restype
+}
+
+function decodeJid(jid) {
+    if (!jid) return jid
+    if (/:\d+@/gi.test(jid)) {
+        let decode = jidDecode(jid) || {}
+        return decode.user && decode.server && decode.user + '@' + decode.server || jid
+    } else return jid
 }
 
 exports.serialize = (conn, m, options = {}) => {

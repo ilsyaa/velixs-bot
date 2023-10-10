@@ -1,6 +1,5 @@
 const axios = require('axios');
 const { apis } = require("../../config.js")
-const wa = require("velixs-md")
 
 module.exports = {
     name : "translate",
