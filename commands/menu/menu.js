@@ -21,5 +21,6 @@ module.exports = {
         text += `⚡ sources: _www.github.com/ilsyaa/velixs-bot_`
         
         return sock.sendMessage(m.from, { text: text }, { quoted: m })
+
     }
 }

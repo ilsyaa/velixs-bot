@@ -10,15 +10,7 @@ const startBOT = async() => {
     const sock = await wa.startSession(sessionName)
     
     sock.ev.on("messages.upsert", async(msg) => { new onMessageReceived(msg, sock).main() })
+    sock.ev.on("group-participants.update", async(ev) => { new onGroupParticipants({ ev, sock }).main() })
 }
 
 startBOT()
-// wa.onConnected(async (sessionId) => { log.info(`Session Connected : ${sessionId}`) })
-// wa.onDisconnected(async (sessionId) => { log.info(`Session Disconnected : ${sessionId}`) })
-
-// wa.onMessageReceived(async ({ msg, sock }) => {
-//     new onMessageReceived(msg, sock).main()
-// })
-
-
-// wa.onGroupParticipantsUpdated(async ({ ev, sock }) => { new onGroupParticipants({ ev, sock }).main() })

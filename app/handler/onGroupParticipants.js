@@ -16,12 +16,12 @@ class onGroupParticipants{
                     try{
                         avatar = await this.sock.profilePictureUrl(user, 'image')
                     } catch {}
-
+                    let group = await this.sock.groupMetadata(id)
                     axios.post(apis.velixs.endpoint+`/card/welcome`,{
                         "apikey": apis.velixs.apikey,
                         "avatar": avatar,
-                        "heading": "Ilsya",
-                        "text": `Selamat Datang di ${await sock.groupMetadata(user)?.subject ?? '-'}`
+                        "heading": user.split('@')[0],
+                        "text": `Selamat Datang di ${group.subject ?? '-'}`
                     }, {
                         responseType: 'arraybuffer'
                     }).then(res=>{

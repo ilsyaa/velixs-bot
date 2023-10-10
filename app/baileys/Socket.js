@@ -3,12 +3,13 @@ const { default:makeWASocket,
     DisconnectReason,
     fetchLatestBaileysVersion,
     useMultiFileAuthState,
-    WASocket, 
+    WASocket,
+    makeInMemoryStore,
+    jidDecode
 } = require("@whiskeysockets/baileys")
 const pino = require("pino")
 const fs = require('fs')
 const log = require("../func/log.js")
-
 const sessions = new Map()
 const retryCount = new Map()
 
@@ -21,16 +22,18 @@ const startSession = async(sessionId = 'ilsya') => {
     if (isSessionExistAndRunning(sessionId)) return getSession(sessionId)
 
     const { version } = await fetchLatestBaileysVersion();
-    
+    // const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
+    // store.readFromFile(credentials.dir+sessionId+credentials.prefix+'/baileys_store.json')
+    // store.writeToFile(credentials.dir+sessionId+credentials.prefix+'/baileys_store.json')
     const startSocket = async() => {
         const { state, saveCreds } = await useMultiFileAuthState(credentials.dir + sessionId + credentials.prefix)
         const sock = makeWASocket({
             version,
             printQRInTerminal: true,
             auth: state,
-            logger : pino({ level: "silent" }),
+            logger: pino({ level: "silent" }),
             markOnlineOnConnect: false,
-            browser: ['VelixS', 'Safari', '3.0'],
+            browser: ['VelixS', 'Safari', '3.0']
         });
 
         sessions.set(sessionId, { ...sock })
@@ -65,6 +68,9 @@ const startSession = async(sessionId = 'ilsya') => {
                     log.info(`SESSION : ${sessionId} Connected.`)
                     retryCount.delete(sessionId);
                 }
+            })
+            sock.ev.on("creds.update", async () => {
+                await saveCreds();
             })
         }catch(e){
             log.error("SOCKET : "+e)
