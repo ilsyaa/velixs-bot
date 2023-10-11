@@ -16,7 +16,14 @@ class onMessageReceived {
         if (m.key.id.startsWith("BAE5") && m.key.id.length == 16) return
 
         m.isOwner = config.owner.find((v) => v + "@s.whatsapp.net" == m.sender) ? true : false
-        // console.log(m);
+        m.groupMetadata  = m.isGroup ? await this.sock.groupMetadata(m.key.remoteJid) : {}
+        let participant_sender = (m.isGroup ? m.groupMetadata.participants.find((v) => v.id == m.sender) : {}) || {}
+        let participant_bot = (m.isGroup ? m.groupMetadata.participants.find((v) => v.id == m.botNumber) : {}) || {}
+        m.isSuperAdmin = participant_sender?.admin == 'superadmin' ? true : false
+        m.isAdmin = m.isSuperAdmin || participant_sender?.admin == 'admin' ? true : false
+        m.isBotAdmin = participant_bot?.admin == 'admin' ? true : false
+
+        // console.log(participant_bot);
         try{
             const command = Array.from(commands.values()).find((v) => v.cmd.find((x) => x.toLowerCase() == m.commandWithoutPrefix.toLowerCase()));
             if(!command) return

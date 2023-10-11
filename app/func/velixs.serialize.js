@@ -31,6 +31,7 @@ exports.serialize = (conn, m, options = {}) => {
         m.fromMe = m.key.fromMe
         m.id = m.key.id
         m.isBot = m.id.startsWith("BAE5") && m.id.length == 16
+        m.botNumber = jidNormalizedUser(conn.user?.id)
         m.isGroup = m.from.endsWith("@g.us")
         m.sender = jidNormalizedUser(m.fromMe && conn.user?.id || m.key.participant || m.from || "")
     }
@@ -71,5 +72,9 @@ exports.serialize = (conn, m, options = {}) => {
     // m.args = message.split(" ").slice(1).filter(arg => { return arg.trim() !== '' })
     m.args = m.body.split(/ +/).slice(1)
     m.arg = m.body.slice(m.commandWithPrefix.length+1)
+
+    m.reply = (text) => {
+        return conn.sendMessage(m.from, { text }, { quoted: m })
+    }
     return m
 }

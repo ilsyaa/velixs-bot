@@ -37,7 +37,7 @@ const startSession = async(sessionId = 'ilsya') => {
         });
 
         sessions.set(sessionId, { ...sock })
-
+        
         try{
             sock.ev.on('connection.update', (update) => {
                 const { connection, lastDisconnect } = update
@@ -75,6 +75,7 @@ const startSession = async(sessionId = 'ilsya') => {
         }catch(e){
             log.error("SOCKET : "+e)
         }
+        
         return sock
     }
 
