@@ -1,6 +1,6 @@
 module.exports = {
     sessionName : 'velixsmd',
-    prefix : ['!', '#', '/'],
+    prefixs : ['!', '#', '/'],
     owner : [
         '6285174902345'
     ],

@@ -9,21 +9,23 @@
 ```
 
 ### Commands Options
-Ini masih Konsep 😺
 ```ts
 module.exports = {
     nameId : "menu",
     description : "Menu Bot Velixs-Bot",
     cmd : ['help', 'menu'],
-    options : {
-        adminOnly : false, // default false
-        groupOnly : false, // default false 
-        ownerOnly : false, // default false
 
-        // jika ini bernilai true maka command harus memakai prefix contoh !help jika help doang gak bisa
-        withPrefix : true,  // default true
+    // option : tambahkan ini untuk menampilkan otomatis ke list menu
+    menu : {
+        label : 'translate',
+        example : "_en text_",
     },
-    run : async() => {}
+
+    run : async({ m, sock}) => {
+        if(!m.isGroup) return m.reply("Fitur Hanya Bisa di group.")
+        if(!m.isAdmin) return m.reply("Fitur Hanya Untuk admin.")
+        if(!m.isBotAdmin) return m.reply("Bot Harus Admin")
+    }
 }
 ```
 
