@@ -1,5 +1,5 @@
 const { serialize } = require('../func/velixs.serialize.js');
-const { commands } = require("../func/loadCommands.js")
+const { commands, _commands } = require("../func/loadCommands.js")
 const log = require("../func/log.js")
 const config = require("../../config.js")
 
@@ -25,8 +25,20 @@ class onMessageReceived {
 
         // console.log(participant_bot);
         try{
+            let shouldContinue = true;
+            for (let _command of _commands) {
+                const next = await _command[1].run({m , sock: this.sock})
+                shouldContinue = next 
+                break
+            }
+            
+            if(!shouldContinue) return
+
             const command = Array.from(commands.values()).find((v) => v.cmd.find((x) => x.toLowerCase() == m.commandWithoutPrefix.toLowerCase()));
             if(!command) return
+            if(!m.withPrefix){
+                if(!command.options?.withoutPrefix) return
+            }
             command.run({m , sock: this.sock})
         } catch(e) {
             log.error(e)

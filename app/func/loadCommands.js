@@ -3,6 +3,7 @@ const fs = require('fs')
 const commandsDir = path.join(__dirname, '../../commands')
 const commands = new Map();
 const menuByLabel = new Map()
+const _commands = new Map()
 const log = require("../func/log.js")
 
 const loadFile = (filePath) => {
@@ -10,10 +11,14 @@ const loadFile = (filePath) => {
         if(filePath.endsWith('.js')) {
             const file = require(filePath);
             const name = file.name.toLowerCase().replace(/\s/g, "");
-            if (!commands.has(name)) {
-                commands.set(name, file)
+            if (!commands.has(name) || _commands.has(name)) {
+                if(file.cmd){
+                    commands.set(name, file)
+                } else {
+                    _commands.set(name, file)
+                }
             } else {
-                log.warn(`Command name ${name} already exists.`)
+                log.warn(`duplication name ${name}.`)
             }
         }
         return false
@@ -48,10 +53,12 @@ const loadCommands = async() => {
         }
     })
     log.info(`Loaded ${commands.size} commands.`)
+    log.info(`Loaded ${_commands.size} commands without cmd.`)
 }
 
 module.exports = {
     loadCommands,
     commands,
+    _commands,
     menuByLabel
 }

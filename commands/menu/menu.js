@@ -7,7 +7,7 @@ module.exports = {
     run : async({ m, sock }) => {
         let text = ''
         text += '*😺 Menu Velixs-Bot*\n\n'
-
+console.log(m);
         menuByLabel.forEach((val, key) => {
             text += `┌──「 *${key}*\n`
             val.forEach((v) => {
