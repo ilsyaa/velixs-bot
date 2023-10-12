@@ -13,10 +13,12 @@ module.exports = {
 
         let user = m.arg.replace(/[^0-9]/g, '')+"@s.whatsapp.net"
 
-        try{
-            await sock.groupParticipantsUpdate(m.from, [user], 'add')
-        }catch{
-            await m.reply("Tidak Dapat Menambahkan Member")
-        }
+        await sock.groupParticipantsUpdate(m.from, [user], 'add').then(res=>{
+            if(res[0].content?.attrs?.error == 409){
+                m.reply("_Sudah menjadi anggota._")
+            }else if(res[0].content?.attrs?.error == 403){
+                m.reply("_Nomor ini harus di undang manual._")
+            }
+        }).catch({})
     }
 }
