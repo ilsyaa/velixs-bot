@@ -1,10 +1,19 @@
 class Message {
-    constructor(sock, m){
+    constructor({ sock, m }){
         this.sock = sock
         this.m = m
     }
 
-    async reply(text){
+    async react(emote){
+        const reactionMessage = {
+            react: {
+                text: emote,
+                key: this.m.key
+            }
+        }
         
+        return await this.sock.sendMessage(this.m.from, reactionMessage)
     }
 }
+
+module.exports = Message

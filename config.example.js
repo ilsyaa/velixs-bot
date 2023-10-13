@@ -18,5 +18,11 @@ module.exports = {
         isGroup : "_😿 Fitur Ini hanya untuk group._",
         isOwner : "_😿 Fitur Ini hanya untuk owner._",
         isBotAdmin : "_😿 Bot Bukan Admin._",
-    }
+    },
+
+    react: {
+        process: '⏳',
+        success: '✅',
+        failed: '❌'
+    },
 }

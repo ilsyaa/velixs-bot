@@ -1,5 +1,6 @@
 const { default: axios } = require("axios")
-const { apis } = require("../../config.js")
+const { apis, react } = require("../../config.js")
+const Message = require("../../app/func/Message.js")
 
 module.exports = {
     name : "igstalk",
@@ -11,7 +12,8 @@ module.exports = {
     cmd : ['igstalk'],
     run : async({ m, sock }) => {
         if(!m.args[0]) return sock.sendMessage(m.from, { text: `Contoh : ${m.prefix}igstalk username` })
-
+        const message = new Message({m,sock})
+        message.react(react.process)
         axios.get(apis.velixs.endpoint+`/instagram?apikey=${apis.velixs.apikey}&username=${m.args[0]}`).then(async(res)=>{
             let text = ``
             text += `┌──「 *STALKING*\n`
@@ -23,7 +25,8 @@ module.exports = {
             text += `▢ *🔗 Link:* https://instagram.com/${res.data.data.username}\n`
             text += `└────────────`
             // return sock.sendMessage(m.from, { text: text }, { quoted: m })
-            sock.sendMessage(m.from, {
+            await message.react(react.success)
+            await sock.sendMessage(m.from, {
                 text: text,
                 contextInfo: {
                     forwardingScore: 0,
@@ -39,6 +42,7 @@ module.exports = {
                 }
             }, {quoted: m})
         }).catch(async(err)=>{
+            await message.react(react.failed)
             if(err.response.data.message == 'user not found') return sock.sendMessage(m.from, { text: `Username ${m.args[0]} tidak ditemukan.` }, { quoted: m })
         })
 

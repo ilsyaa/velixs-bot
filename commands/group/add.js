@@ -1,4 +1,5 @@
-const { msg } = require("../../config.js")
+const { msg, react } = require("../../config.js")
+const Message = require("../../app/func/Message.js")
 
 module.exports = {
     name : "group-add",
@@ -13,12 +14,18 @@ module.exports = {
 
         let user = m.arg.replace(/[^0-9]/g, '')+"@s.whatsapp.net"
 
+        const message = new Message({ m, sock })
+        message.react(react.process)
+
         await sock.groupParticipantsUpdate(m.from, [user], 'add').then(res=>{
             if(res[0].content?.attrs?.error == 409){
+                message.react(react.success)
                 m.reply("_Sudah menjadi anggota._")
             }else if(res[0].content?.attrs?.error == 403){
+                message.react(react.failed)
                 m.reply("_Nomor ini harus di undang manual._")
             }
-        }).catch({})
+            message.react(react.success)
+        }).catch(()=>{ message.react(react.failed) })
     }
 }
