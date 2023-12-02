@@ -5,11 +5,11 @@ module.exports = {
     name : "antilink-group",
     description : "Antilink group. ketika ada link di group akan otomatis di hapus.",
     run : async({ m, sock }) => {
-        if(!m.isGroup) return
-        if(m.isAdmin) return
-        if(m.isSuperAdmin) return
-        if(m.isOwner) return
-        if(!m.isBotAdmin) return
+        if(!m.isGroup) return true
+        if(m.isAdmin) return true
+        if(m.isSuperAdmin) return true
+        if(m.isOwner) return true
+        if(!m.isBotAdmin) return true
 
         let budy = m.body
         if (budy.match(`chat.whatsapp.com`)) {
