@@ -16,9 +16,9 @@ module.exports = {
         const message = new Message({ m, sock })
         await message.react(react.process)
         let text = m.arg
-        axios.get(apis.velixs.endpoint+`/gpt?apikey=${apis.velixs.apikey}&text=${text}`).then(async(res)=>{
+        axios.get(`https://vihangayt.me/tools/chatgpt?q=${text}`).then(async(res)=>{
             await message.react(react.success)
-            await sock.sendMessage(m.from, { text : res.data.data.reply }, { quoted: m })
+            await sock.sendMessage(m.from, { text : res.data.data }, { quoted: m })
         }).catch(async(err)=>{ await message.react(react.failed) })
     }
 }

@@ -28,8 +28,8 @@ class onMessageReceived {
             let shouldContinue = true;
             for (let _command of _commands) {
                 const next = await _command[1].run({m , sock: this.sock})
-                shouldContinue = next 
-                break
+                shouldContinue = next
+                if(!shouldContinue) break
             }
             
             if(!shouldContinue) return
