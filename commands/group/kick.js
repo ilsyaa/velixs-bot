@@ -12,7 +12,7 @@ module.exports = {
 
         let user = m.mentions[0] ?? m.quoted?.sender
         if(!user) return m.reply(`Contoh : _${m.prefix}kick @user atau reply pesan_`)
-        
+        const message = new Message({ m, sock })        
         try{
             message.react(react.success)
             await sock.groupParticipantsUpdate(m.from, [user], 'remove')
