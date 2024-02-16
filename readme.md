@@ -45,3 +45,7 @@ Masih Dalam Pengembangan 😺
 [Ilsya](https://github.com/ilsyaa)
 
 [Velixs](https://velixs.com)
+
+### Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ilsyaa/velixs-bot&type=Date)](https://star-history.com/#ilsyaa/velixs-bot&Date)
